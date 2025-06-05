@@ -33,7 +33,14 @@ def mnist_dataset():
 
 # 定义矩阵乘法层
 class Matmul:
+ """矩阵乘法运算类，支持矩阵乘法操作并缓存中间结果"""
     def __init__(self):
+          """初始化矩阵乘法类
+        创建一个字典mem用于缓存中间计算结果
+        键: 输入矩阵的标识组合
+        值: 对应的矩阵乘法结果
+        用途: 在重复计算相同矩阵乘法时提高效率
+        """
         self.mem = {}
         
     def forward(self, x, W):
@@ -117,8 +124,13 @@ class Softmax:
         # 假设grad_y是一个形状为(N, c)的梯度张量
         # np.expand_dims(grad_y, axis=1)将其形状变为(N, 1, c)
         g_y_exp = np.expand_dims(grad_y, axis=1)
+        # 矩阵乘法：(N, 1, c) × (N, c, c) = (N, 1, c)
+        # 这一步计算了 grad_y 与 sisj 的乘积
         tmp = np.matmul(g_y_exp, sisj) #(N, 1, c)
+         # 压缩维度，从 (N, 1, c) 变回 (N, c)
         tmp = np.squeeze(tmp, axis=1)
+        # 最终梯度计算：∂L/∂x = ∂L/∂y * s - sum(∂L/∂y * s) * s
+        # 等价于 tmp = -tmp + grad_y * s
         tmp = -tmp + grad_y * s 
         return tmp
     
