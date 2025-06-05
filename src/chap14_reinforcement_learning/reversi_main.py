@@ -47,17 +47,22 @@ for i_episode in range(max_epochs):
         observation, reward, done, info = env.step(action)
 
         ################### 白棋（智能体策略） ###################
+         # 渲染当前棋盘状态，直观展示游戏局面
         env.render()  # 打印当前棋盘状态
         enables = env.possible_actions  # 获取当前白棋可落子的位置列表
         if len(enables) == 0:
             # 无法落子，执行“跳过”操作
-            action_ = env.board_size ** 2 + 1
+            # 通常action_size = board_size² + 2（包含"跳过"和"认输"）
+            action_ = env.board_size ** 2 + 1  # "跳过"动作编号
         else:
             # 使用训练好的智能体模型选择最佳落子位置
             action_ = agent.place(observation, enables)
         action[0] = action_
         action[1] = 1  # 设置为白棋
         # 白棋落子并更新环境状态
+        # observation: 当前环境观测（棋盘状态）
+        # enables: 合法动作列表
+        # 返回值: 选中的动作编号（对应enables中的索引）
         observation, reward, done, info = env.step(action)
 
         # 如果对局结束
