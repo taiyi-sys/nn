@@ -58,15 +58,15 @@ class myConvModel(keras.Model):
     '''在这里实现alexNet模型'''
     def __init__(self):
         super(myConvModel, self).__init__()
-        self.l1_conv = Conv2D(filters=32, 
-                              kernel_size=(5, 5), 
-                              activation='relu', padding='same')
+        self.l1_conv = Conv2D(filters = 32, 
+                              kernel_size = (5, 5), 
+                              activation = 'relu', padding='same')
         
         self.l2_conv = Conv2D(filters=64, 
-                              kernel_size=(5, 5), 
+                              kernel_size = (5, 5), 
                               activation='relu',padding='same')
         
-        self.pool = MaxPooling2D(pool_size=(2, 2), strides=2)
+        self.pool = MaxPooling2D(pool_size = (2, 2), strides=2)
         
         self.flat = Flatten()
         self.dense1 = layers.Dense(100, activation='tanh')
@@ -106,7 +106,7 @@ model.compile(optimizer=optimizer,
               loss='sparse_categorical_crossentropy',
               metrics=['accuracy'])
 train_ds, test_ds = cifar10_dataset()
-model.fit(train_ds, epochs=10)
+model.fit(train_ds, epochs = 10)
 model.evaluate(test_ds)
 
 # In[20]:
