@@ -217,7 +217,7 @@ def reduce_avg(reduce_target, lengths, dim):
     rank_diff = len(shape_of_target) - len(shape_of_lengths) - 1
     mxlen = tf.shape(reduce_target)[dim]
     mask = mkMask(lengths, mxlen)
-    if rank_diff!=0:
+    if rank_diff! = 0:
         len_shape = tf.concat(axis=0, values=[tf.shape(lengths), [1]*rank_diff])
         mask_shape = tf.concat(axis=0, values=[tf.shape(mask), [1]*rank_diff])
     else:
@@ -335,10 +335,17 @@ def gen_sentence():
         生成的诗歌字符串
     """
     # 初始化RNN状态
+    # state 包含两个张量，分别代表解码器的不同状态（如隐藏状态h和单元状态c）
+    # 每个张量形状为 (1, 128)，表示批次大小为1，特征维度为128
+    # 使用标准差为0.5的正态分布随机初始化，为模型引入随机性
     state = [tf.random.normal(shape=(1, 128), stddev=0.5), 
              tf.random.normal(shape=(1, 128), stddev=0.5)]
     # 从开始标记开始
+    # word2id 是词汇表到ID的映射字典
+    # cur_token 形状为 (1,)，表示批次中的一个样本
     cur_token = tf.constant([word2id['bos']], dtype=tf.int32)
+    # 用于收集生成的token ID序列
+    # 在每个时间步，将当前生成的token添加到collect列表中
     collect = []
     
     # 生成最多50个词
