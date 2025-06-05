@@ -4,10 +4,18 @@
 # ## 准备数据
 
 # In[7]:
+# 导入操作系统相关模块，用于文件路径操作、环境变量等
 import os
+# 导入NumPy库，用于高性能科学计算和多维数组处理
 import numpy as np
-import tensorflow as tf
+# 导入TensorFlow深度学习框架
+import tensorflow as tf # Keras是TensorFlow的高级API
+# 从Keras导入常用模块
 from tensorflow import keras
+#layers,用于构建神经网络的各种层（如Dense、Conv2D）
+#optimizers,包含各种优化算法（如Adam、SGD）
+#datasets,内置数据集（如MNIST、CIFAR-10）
+
 from tensorflow.keras import layers, optimizers, datasets
 
 # 设置TensorFlow日志级别，减少无关信息输出
