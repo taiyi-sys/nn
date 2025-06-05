@@ -97,10 +97,14 @@ class mySeq2SeqModel(keras.Model):
         )
 
         # 解码器RNN层：与编码器类似
+        # 创建一个循环神经网络层，使用自定义的解码器单元
+        # self.decoder_cell 是一个实现了RNNCell接口的对象（如SimpleRNNCell、LSTMCell等）
+        # return_sequences=True：返回完整的输出序列（而非仅最后一个时间步的输出）
+        # return_state=True：同时返回最终的隐藏状态（用于生成时的状态传递）
         self.decoder = tf.keras.layers.RNN(
-            self.decoder_cell,
-            return_sequences=True,
-            return_state=True
+            self.decoder_cell,  # 指定解码器使用的RNN单元
+            return_sequences=True,  # 返回每个时间步的输出序列
+            return_state=True  # 返回最终的隐藏状态
         )
 
         # 全连接层：将解码器的每个时间步的输出转换为词表大小的 logits（即每个字符的预测概率分布）
